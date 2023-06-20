@@ -20,6 +20,10 @@ def main():
     r_1, r_2 = (randrange(WIDTH), randrange(HEIGHT))
     bomb_rct.center = r_1, r_2
     
+    # 練習問題2, 移動量設定
+    vx = 5
+    vy = 5
+    
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
     clock = pg.time.Clock()
     tmr = 0
@@ -28,6 +32,9 @@ def main():
             if event.type == pg.QUIT: 
                 return
             
+        # 練習問題2, 移動
+        bomb_rct.move_ip(vx, vy)
+        
         screen.blit(bg_img, [0, 0])
         screen.blit(kk_img, [900, 400])
         
@@ -36,7 +43,8 @@ def main():
         
         pg.display.update()
         tmr += 1
-        clock.tick(10)
+        # original -> clock.tick(10)
+        clock.tick(50)
 
 
 if __name__ == "__main__":

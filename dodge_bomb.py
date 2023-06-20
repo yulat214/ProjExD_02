@@ -60,8 +60,10 @@ def main():
             if event.type == pg.QUIT: 
                 return
             if kk_rct.colliderect(bomb_rct):
+                screen.blit(cry_img, [bx, by])
+                pg.display.update()
                 print("game over")
-                return 
+                return
     
         key_lst = pg.key.get_pressed()
         move_lst = [0, 0]
@@ -102,6 +104,7 @@ def main():
         # original -> clock.tick(10)
         clock.tick(50)
         
+        bx, by = kk_rct.center
         
         
 # 練習問題4

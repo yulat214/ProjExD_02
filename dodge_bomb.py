@@ -30,6 +30,19 @@ def main():
     vx = 5
     vy = 5
     
+    # rotozoom dict
+    # 左向きを基準に回転, 右向きは反転->回転
+    rt_dct = {
+        (0, -5):  pg.transform.flip(pg.transform.rotozoom(kk_img, -90, 2.0), True, False),
+        (5, -5):  pg.transform.flip(pg.transform.rotozoom(kk_img, -45, 2.0), True, False),
+        (5, 0):   pg.transform.flip(pg.transform.rotozoom(kk_img, 0, 2.0), True, False),
+        (5, 5):  pg.transform.flip(pg.transform.rotozoom(kk_img, 45, 2.0), True, False),
+        (0, 5):   pg.transform.flip(pg.transform.rotozoom(kk_img, 90, 2.0), True, False),
+        (-5, 5):  pg.transform.rotozoom(kk_img, 45, 2.0),
+        (-5, 0):  pg.transform.rotozoom(kk_img, 0, 2.0),
+        (-5, -5): pg.transform.rotozoom(kk_img, -45, 2.0)
+    }
+    
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
     clock = pg.time.Clock()
     tmr = 0
@@ -37,12 +50,10 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
-            
-            # 練習5
-            if kk_rct.collidedict(bomb_rct):
+            if kk_rct.colliderect(bomb_rct):
                 print("game over")
                 return 
-        
+    
         key_lst = pg.key.get_pressed()
         move_lst = [0, 0]
         
@@ -63,8 +74,13 @@ def main():
             vx *= -1
             
         screen.blit(bg_img, [0, 0])
-        screen.blit(kk_img, kk_rct)
         
+        # move_lstの値をtupleに変換してからキーとして辞書に渡す
+        # 向きが変わるときのみkk_imgを更新
+        if move_lst != [0, 0]:
+            kk_img = rt_dct[tuple(move_lst)]
+        
+        screen.blit(kk_img, kk_rct)
         screen.blit(bomb, bomb_rct)
         
         pg.display.update()

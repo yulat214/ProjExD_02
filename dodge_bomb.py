@@ -12,15 +12,17 @@ def main():
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02/fig/3.png")
     
-    # 以下練習問題1, 設定
+    # 練習問題3, こうかとん設定
+    kk_rct = kk_img.get_rect()
+    kk_rct.center = 900, 400
+
     bomb = pg.Surface((20, 20))
     pg.draw.circle(bomb, (255, 0, 0), (10, 10), 10)
     bomb.set_colorkey((0, 0, 0))
     bomb_rct = bomb.get_rect()
     r_1, r_2 = (randrange(WIDTH), randrange(HEIGHT))
     bomb_rct.center = r_1, r_2
-    
-    # 練習問題2, 移動量設定
+
     vx = 5
     vy = 5
     
@@ -31,14 +33,21 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
+        
+        # 練習問題3, 移動量
+        key_lst = pg.key.get_pressed()
+        move_lst = [0, 0]
+        if key_lst[pg.K_UP]: move_lst[1] -= 5
+        if key_lst[pg.K_DOWN]: move_lst[1] += 5
+        if key_lst[pg.K_LEFT]: move_lst[0] -= 5
+        if key_lst[pg.K_RIGHT]: move_lst[0] += 5
             
-        # 練習問題2, 移動
+        kk_rct.move_ip(move_lst)
         bomb_rct.move_ip(vx, vy)
         
         screen.blit(bg_img, [0, 0])
-        screen.blit(kk_img, [900, 400])
+        screen.blit(kk_img, kk_rct)
         
-        # 練習問題1,表示
         screen.blit(bomb, bomb_rct)
         
         pg.display.update()

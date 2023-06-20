@@ -37,6 +37,11 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
+            
+            # 練習5
+            if kk_rct.collidedict(bomb_rct):
+                print("game over")
+                return 
         
         key_lst = pg.key.get_pressed()
         move_lst = [0, 0]

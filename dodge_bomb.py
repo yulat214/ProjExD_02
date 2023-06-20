@@ -59,9 +59,11 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
-            if kk_rct.colliderect(bomb_rct):
+            # colliderectの基準をbombに更新
+            if bomb_rct.colliderect(kk_rct):
                 screen.blit(cry_img, [bx, by])
                 pg.display.update()
+                
                 print("game over")
                 return
     
@@ -97,6 +99,9 @@ def main():
         
         # 300フレームごとに拡大
         bomb = bomb_imgs[min(tmr//300, 9)]
+        a, b = bomb_rct.center
+        bomb_rct = bomb_img.get_rect()
+        bomb_rct.center = a,b 
         screen.blit(bomb, bomb_rct)
         
         pg.display.update()
